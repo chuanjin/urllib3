@@ -32,6 +32,13 @@ def format_header_param(name, value):
     :param value:
         The value of the parameter, provided as a unicode string.
     """
+    if isinstance(value, bytes):
+        try:
+            value = '%s="%s"' % (name, value.decode('utf-8'))
+        except:
+            value = '%s="%s"' % (name, value.decode('gbk'))
+        return value
+
     if not any(ch in value for ch in '"\\\r\n'):
         result = '%s="%s"' % (name, value)
         try:
